@@ -1,5 +1,5 @@
 import axios from "axios";
-import { market } from "./types";
+import { Depth, market } from "./types";
 
 const BASE_URL = "https://api.binance.com/api/v3";
 
@@ -37,4 +37,11 @@ export const getMarket = async (): Promise<market[]> => {
   });
 
   return response.data.filter((x) => popularSymbols.includes(x.symbol));
+};
+
+export const getDepth = async (symbol: string): Promise<Depth> => {
+  const response = await axios.get(
+    `https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=10`
+  );
+  return response.data as Depth;
 };
