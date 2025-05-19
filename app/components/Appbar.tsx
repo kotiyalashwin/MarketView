@@ -6,7 +6,7 @@ const Appbar = () => {
   const pathname = usePathname();
 
   return (
-    <header>
+    <header className="border-b-yellow-400 border-b sticky">
       <nav className="py-4 px-3 flex items-center justify-start gap-8 bg-slate-600/5 backdrop-blur-2xl">
         <Link href={"/"} className="text-xl ">
           Exchange
