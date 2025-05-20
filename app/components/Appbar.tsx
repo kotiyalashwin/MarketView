@@ -6,7 +6,7 @@ const Appbar = () => {
   const pathname = usePathname();
 
   return (
-    <header className="border-b-yellow-400 border-b sticky">
+    <header className="border-b-yellow-400/10 border-b sticky">
       <nav className="py-4 px-3 flex items-center justify-start gap-8 bg-slate-600/5 backdrop-blur-2xl">
         <Link href={"/"} className="text-xl ">
           Exchange
@@ -22,10 +22,10 @@ const Appbar = () => {
         <Link
           className={`${
             pathname.startsWith("/trade")
-              ? "text-yellow-400"
+              ? "text-yellow-400 "
               : "text-neutral-400"
           }`}
-          href={"/trade/SOL_USDC"}
+          href={"/trade/SOLUSDT"}
         >
           Trade
         </Link>

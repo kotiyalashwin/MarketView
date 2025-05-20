@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Depth, market } from "./types";
+import { Depth, market, Ticker } from "./types";
 
 const BASE_URL = "https://api.binance.com/api/v3";
 
@@ -44,4 +44,12 @@ export const getDepth = async (symbol: string): Promise<Depth> => {
     `https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=10`
   );
   return response.data as Depth;
+};
+
+export const getTicker = async (symbol: string): Promise<Ticker> => {
+  const resposne = await axios.get(
+    `${BASE_URL}/ticker/price?symbol=${symbol.toUpperCase()}`
+  );
+
+  return resposne.data as Ticker;
 };

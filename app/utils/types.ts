@@ -9,3 +9,8 @@ export interface Depth {
   bids: [string, string][]; // array of arrays which contain two strings
   asks: [string, string][];
 }
+
+export interface Ticker {
+  price: string;
+  symbol: string;
+}

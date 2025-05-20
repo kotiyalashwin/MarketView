@@ -6,7 +6,8 @@ export const Big3 = async () => {
   const big3names = ["BTCUSDT", "ETHUSDT", "SOLUSDT"];
   const big3 = market.filter((x) => big3names.includes(x.symbol));
   return (
-    <div className="flex justify-between items-center text-sm px-4 bg-black/30">
+    <div className="flex justify-between  items-center text-sm px-4 ">
+      {/* <div className="flex items-center w-[65%]  ml-10"> */}
       {big3.map((el, i) => {
         const change = parseFloat(el.priceChangePercent);
         const isDown = change < 0;
@@ -21,6 +22,7 @@ export const Big3 = async () => {
           />
         );
       })}
+      {/* </div> */}
     </div>
   );
 };
