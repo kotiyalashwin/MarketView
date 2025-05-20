@@ -14,13 +14,6 @@ const OrderBook = ({ depth, price }: { depth: Depth; price: string }) => {
         <Ask asks={depth.asks} />
         <p className="text-2xl">{parseFloat(price).toFixed(3)}</p>
         <Bids bids={depth.bids} />
-        {/* {depth.bids.map((bid, i) => (
-          <div key={i} className="flex items-center justify-between">
-            <p className="text-green-600">{parseFloat(bid[0]).toFixed(2)}</p>
-            <p>{parseFloat(bid[1]).toFixed(2)}</p>
-            <p>bid</p>
-          </div>
-        ))} */}
       </div>
     </div>
   );

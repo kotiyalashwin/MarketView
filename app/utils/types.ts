@@ -14,3 +14,11 @@ export interface Ticker {
   price: string;
   symbol: string;
 }
+
+export interface Trade {
+  price: string;
+  qty: string;
+  quoteQty: string;
+  time: number;
+  isBuyerMaker: boolean;
+}

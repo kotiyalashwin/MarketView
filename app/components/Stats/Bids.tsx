@@ -1,6 +1,6 @@
 const Bids = ({ bids }: { bids: [string, string][] }) => {
   let total = 0;
-  // bids.reverse();
+
   const withTotal: [string, string, number][] = [];
 
   for (let i = bids.length - 1; i >= 0; i--) {
@@ -13,7 +13,6 @@ const Bids = ({ bids }: { bids: [string, string][] }) => {
     0
   );
 
-  // withTotal.reverse();
   return (
     <div className="space-y-[2px]">
       {withTotal.map(([price, quantity, number], i) => {

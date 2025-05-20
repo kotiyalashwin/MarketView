@@ -1,17 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getDepth, getTicker } from "../../utils/httpclient";
-import { Depth } from "../../utils/types";
+import { getDepth, getTicker, getTrade } from "../../utils/httpclient";
+import { Depth, Trade } from "../../utils/types";
 import OrderBook from "./OrderBook";
+import Trades from "./Trade";
 
 export const Stats = ({ market }: { market: string }) => {
   const [activeTab, setActiveTab] = useState<"book" | "trade">("book");
   const [depth, setDepth] = useState<Depth | null>(null);
   const [price, setPrice] = useState("");
+  const [trades, setTrades] = useState<Trade[] | null>(null);
 
   useEffect(() => {
     getDepth(market).then((res) => setDepth(res));
     getTicker(market).then((res) => setPrice(res.price));
+    getTrade(market).then((res) => setTrades(res));
   }, [market]);
 
   return (
@@ -35,7 +38,9 @@ export const Stats = ({ market }: { market: string }) => {
         {activeTab === "book" && depth && (
           <OrderBook depth={depth} price={price} />
         )}
-        {activeTab === "trade" && "Trade"}
+        {activeTab === "trade" && trades && (
+          <Trades trades={trades} market={market} />
+        )}
       </div>
     </div>
   );
