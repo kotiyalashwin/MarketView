@@ -10,7 +10,7 @@ const Trades = ({ trades, market }: { trades: Trade[]; market: string }) => {
   return (
     <div className=" flex flex-col h-[65vh] overflow-y-auto pr-4 custom-scrollbar">
       <div className="flex items-center justify-between sticky top-0 bg-[#1e1e1e] z-5 px-2 py-[4px] text-sm mb-2">
-        <p>Price</p>
+        <p>Price(USTD)</p>
         <p
           className="cursor-pointer mr-10"
           onClick={() => {
@@ -37,14 +37,21 @@ const Trades = ({ trades, market }: { trades: Trade[]; market: string }) => {
             ? "text-red-600"
             : "text-green-600";
           return (
-            <div key={i} className="w-full flex items-center justify-between">
-              <p className={`${tradeColor}`}>{trade.price}</p>
+            <div
+              key={i}
+              className="w-full flex items-center justify-between pl-6"
+            >
+              <p className={`${tradeColor} font-bold text-sm`}>
+                {parseFloat(trade.price).toFixed(3)}
+              </p>
               <p>
                 {active === "base"
                   ? parseFloat(trade.qty).toFixed(2)
                   : parseFloat(trade.quoteQty).toFixed(2)}
               </p>
-              <p>{formatDate(trade.time)}</p>
+              <p className="text-neutral-400">
+                {formatDate(trade.time).split(" ")[0]}
+              </p>
             </div>
           );
         })}

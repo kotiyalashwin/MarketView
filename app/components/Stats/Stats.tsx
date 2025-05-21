@@ -18,16 +18,20 @@ export const Stats = ({ market }: { market: string }) => {
   }, [market]);
 
   return (
-    <div className="h-full ">
+    <div className="h-full">
       <div className="flex  justify-evenly items-center">
         <button
-          className="bg-gray-600/30 hover:bg-gray-600/20 transition-all duration-[0.25s] px-4 py-2 rounded-lg"
+          className={`${
+            activeTab === "book" ? "bg-gray-600/30" : ""
+          }  transition-all duration-[0.25s] px-4 py-2 rounded-lg hover:text-white/75`}
           onClick={() => setActiveTab("book")}
         >
           Book
         </button>
         <button
-          className="bg-gray-600/30 px-4 py-2 rounded-lg hover:bg-gray-600/20 transition-all duration-[0.25s]"
+          className={`${
+            activeTab === "trade" ? "bg-gray-600/30" : ""
+          }  transition-all duration-[0.25s] px-4 py-2 rounded-lg hover:text-white/75`}
           onClick={() => setActiveTab("trade")}
         >
           Trade

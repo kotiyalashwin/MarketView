@@ -22,3 +22,11 @@ export interface Trade {
   time: number;
   isBuyerMaker: boolean;
 }
+
+export interface Candle {
+  time: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+}

@@ -1,5 +1,6 @@
 const Ask = ({ asks }: { asks: [string, string][] }) => {
   let total = 0;
+
   asks.reverse();
   const withTotal: [string, string, number][] = [];
 
