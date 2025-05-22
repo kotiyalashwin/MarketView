@@ -4,7 +4,6 @@ import MarketView from "../components/MarketView";
 
 export default async function Page() {
   const market = await getMarket();
-  console.log(market);
   return (
     <div className="py-4 px-4 flex flex-col">
       <div>
