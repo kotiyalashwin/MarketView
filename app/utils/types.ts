@@ -1,9 +1,3 @@
-export interface market {
-  lastPrice: string;
-  symbol: string;
-  priceChangePercent: string;
-}
-
 export interface Depth {
   lastUpdateId: string;
   bids: [string, string][]; // array of arrays which contain two strings
@@ -11,8 +5,19 @@ export interface Depth {
 }
 
 export interface Ticker {
-  price: string;
+  lastPrice: string;
   symbol: string;
+  //firstprice
+  openPrice: string;
+  highPrice: string;
+  lowPrice: string;
+  priceChange: string;
+  priceChangePercent: string;
+  quoteVolume: string;
+  // trades
+  count: number;
+  volume: string;
+  //can add more data here
 }
 
 export interface Trade {

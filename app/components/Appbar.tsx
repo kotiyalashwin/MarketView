@@ -25,7 +25,7 @@ const Appbar = () => {
               ? "text-yellow-400 "
               : "text-neutral-400"
           }`}
-          href={"/trade/SOLUSDT"}
+          href={"/trade/SOLUSDC"}
         >
           Trade
         </Link>

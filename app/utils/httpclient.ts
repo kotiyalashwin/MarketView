@@ -1,37 +1,38 @@
 import axios from "axios";
-import { Candle, Depth, market, Ticker, Trade } from "./types";
-import { AxiosResponse } from "axios";
+import { Candle, Depth, Ticker, Trade } from "./types";
+import { type AxiosResponse } from "axios";
 
 const BASE_URL = "https://api.binance.com/api/v3";
 
-export const getMarket = async (): Promise<market[]> => {
+//markets page
+export const getMarket = async (): Promise<Ticker[]> => {
   const popularSymbols = [
-    "BTCUSDT",
-    "ETHUSDT",
-    "BNBUSDT",
-    "SOLUSDT",
-    "ADAUSDT",
-    "XRPUSDT",
-    "DOTUSDT",
-    "DOGEUSDT",
-    "AVAXUSDT",
-    "MATICUSDT",
-    "SHIBUSDT",
-    "LTCUSDT",
-    "UNIUSDT",
-    "ATOMUSDT",
-    "LINKUSDT",
-    "ALGOUSDT",
-    "VETUSDT",
-    "FILUSDT",
-    "ICPUSDT",
-    "FTMUSDT",
-    "TRXUSDT",
-    "XLMUSDT",
-    "THETAUSDT",
-    "EOSUSDT",
+    "BTCUSDC",
+    "ETHUSDC",
+    "BNBUSDC",
+    "SOLUSDC",
+    "ADAUSDC",
+    "XRPUSDC",
+    "DOTUSDC",
+    "DOGEUSDC",
+    "MATICUSDC",
+    "LTCUSDC",
+    "AVAXUSDC",
+    "LINKUSDC",
+    "SHIBUSDC",
+    "UNIUSDC",
+    "ATOMUSDC",
+    "FTMUSDC",
+    "ALGOUSDC",
+    "NEARUSDC",
+    "ICPUSDC",
+    "FILUSDC",
+    "TRXUSDC",
+    "EOSUSDC",
+    "XLMUSDC",
+    "RUNEUSDC",
   ];
-  const response = await axios.get<market[]>(`${BASE_URL}/ticker/24hr`, {
+  const response = await axios.get<Ticker[]>(`${BASE_URL}/ticker/24hr`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -40,6 +41,7 @@ export const getMarket = async (): Promise<market[]> => {
   return response.data.filter((x) => popularSymbols.includes(x.symbol));
 };
 
+//orderbook
 export const getDepth = async (symbol: string): Promise<Depth> => {
   const response = await axios.get(
     `https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=10`
@@ -47,14 +49,16 @@ export const getDepth = async (symbol: string): Promise<Depth> => {
   return response.data as Depth;
 };
 
+//Ticker Bar
 export const getTicker = async (symbol: string): Promise<Ticker> => {
   const resposne = await axios.get(
-    `${BASE_URL}/ticker/price?symbol=${symbol.toUpperCase()}`
+    `${BASE_URL}/ticker/24hr?symbol=${symbol.toUpperCase()}`
   );
 
   return resposne.data as Ticker;
 };
 
+//trade
 export const getTrade = async (symbol: string): Promise<Trade[]> => {
   const response = await axios.get(
     `https://api.binance.com/api/v3/trades?symbol=${symbol.toUpperCase()}&limit=20`
@@ -63,6 +67,7 @@ export const getTrade = async (symbol: string): Promise<Trade[]> => {
   return response.data as Trade[];
 };
 
+//chart
 export const getKlines = async (symbol: string): Promise<Candle[]> => {
   const response: AxiosResponse<any[]> = await axios.get(
     `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1h`

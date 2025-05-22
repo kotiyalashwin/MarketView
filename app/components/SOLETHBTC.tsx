@@ -3,10 +3,10 @@ import MarketView from "./MarketView";
 
 export const Big3 = async () => {
   const market = await getMarket();
-  const big3names = ["BTCUSDT", "ETHUSDT", "SOLUSDT"];
+  const big3names = ["BTCUSDC", "ETHUSDC", "SOLUSDC"];
   const big3 = market.filter((x) => big3names.includes(x.symbol));
   return (
-    <div className="flex justify-between  items-center text-sm px-4 ">
+    <div className="flex justify-between  items-center text-sm px-4 border-b border-b-yellow-400/10 ">
       {/* <div className="flex items-center w-[65%]  ml-10"> */}
       {big3.map((el, i) => {
         const change = parseFloat(el.priceChangePercent);

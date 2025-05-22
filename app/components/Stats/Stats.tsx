@@ -13,7 +13,7 @@ export const Stats = ({ market }: { market: string }) => {
 
   useEffect(() => {
     getDepth(market).then((res) => setDepth(res));
-    getTicker(market).then((res) => setPrice(res.price));
+    getTicker(market).then((res) => setPrice(res.lastPrice));
     getTrade(market).then((res) => setTrades(res));
   }, [market]);
 
