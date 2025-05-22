@@ -1,4 +1,4 @@
-import { Ticker } from "./types";
+import { Depth, Ticker } from "./types";
 
 const cxnURL = "wss://stream.binance.com:9443/ws";
 
@@ -65,6 +65,15 @@ export class ConnectionManager {
               volume: msg.v,
             };
             callback(newTicker);
+          }
+          if (type === "depthUpdate") {
+            const newDepth: Depth = {
+              lastUpdateId: msg.e,
+              bids: msg.b.slice(0, 11),
+              asks: msg.a.slice(0, 11),
+            };
+
+            callback(newDepth);
           }
         });
       }

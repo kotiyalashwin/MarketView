@@ -4,6 +4,8 @@ import { getDepth, getTicker, getTrade } from "../../utils/httpclient";
 import { Depth, Trade } from "../../utils/types";
 import OrderBook from "./OrderBook";
 import Trades from "./Trade";
+import { ConnectionManager } from "@/app/utils/ConnectionManager";
+import { mergeOrderBook } from "@/app/utils/MergerOrderBook";
 
 export const Stats = ({ market }: { market: string }) => {
   const [activeTab, setActiveTab] = useState<"book" | "trade">("book");
@@ -13,8 +15,42 @@ export const Stats = ({ market }: { market: string }) => {
 
   useEffect(() => {
     getDepth(market).then((res) => setDepth(res));
+
+    const updateDepth = (data: Depth) => {
+      setDepth((prev) => {
+        if (!prev) return null;
+
+        const mergedBids = mergeOrderBook(prev.bids, data.bids);
+        const mergedAsks = mergeOrderBook(prev.asks, data.asks);
+
+        return {
+          lastUpdateId: data.lastUpdateId,
+          bids: mergedBids.slice(0, 11),
+          asks: mergedAsks.slice(0, 11),
+        };
+      });
+    };
+
+    ConnectionManager.getInstance().registerCallback(
+      "depthUpdate",
+      updateDepth,
+      market
+    );
+
+    ConnectionManager.getInstance().sendMessage({
+      method: "SUBSCRIBE",
+      params: [`${market.toLowerCase()}@depth`],
+    });
     getTicker(market).then((res) => setPrice(res.lastPrice));
     getTrade(market).then((res) => setTrades(res));
+
+    return () => {
+      ConnectionManager.getInstance().deRegisterCallback("depthUpdate", market);
+      ConnectionManager.getInstance().sendMessage({
+        method: "UNSUBSCRIBE",
+        params: [`${market.toLowerCase()}@depth`],
+      });
+    };
   }, [market]);
 
   return (

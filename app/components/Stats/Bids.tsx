@@ -12,6 +12,7 @@ const Bids = ({ bids }: { bids: [string, string][] }) => {
     (acc, [, quantity]) => acc + Number(quantity),
     0
   );
+  withTotal.reverse();
 
   return (
     <div className="space-y-[2px]">
