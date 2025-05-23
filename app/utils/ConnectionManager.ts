@@ -1,4 +1,3 @@
-import { useTickerStore } from "./store/Ticker";
 import { Candle, Depth, Ticker } from "./types";
 
 const cxnURL = "wss://stream.binance.com:9443/ws";
@@ -6,7 +5,9 @@ const cxnURL = "wss://stream.binance.com:9443/ws";
 export class ConnectionManager {
   private static instance: ConnectionManager;
   private ws: WebSocket;
+
   //message goes here if connection not established but msg recieved
+  // @ts-ignore
   private bufferMessages: any[];
   private id: number;
   private callbacks: { [type: string]: any[] } = {};
