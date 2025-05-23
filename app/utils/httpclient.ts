@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Candle, Depth, Ticker, Trade } from "./types";
-import { type AxiosResponse } from "axios";
 
 const BASE_URL = "https://api.binance.com/api/v3";
 
@@ -69,7 +68,7 @@ export const getTrade = async (symbol: string): Promise<Trade[]> => {
 
 //chart
 export const getKlines = async (symbol: string): Promise<Candle[]> => {
-  const response: AxiosResponse<any[]> = await axios.get(
+  const response = await axios.get<any[]>(
     `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1h`
   );
 
