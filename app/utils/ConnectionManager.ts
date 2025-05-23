@@ -7,7 +7,7 @@ export class ConnectionManager {
   private ws: WebSocket;
 
   //message goes here if connection not established but msg recieved
-  // @ts-ignore
+
   private bufferMessages: any[];
   private id: number;
   private callbacks: { [type: string]: any[] } = {};
