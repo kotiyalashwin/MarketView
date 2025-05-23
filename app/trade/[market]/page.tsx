@@ -2,8 +2,12 @@ import { Stats } from "@/app/components/Stats/Stats";
 import TickerBar from "@/app/components/TickerBar";
 import { TradeView } from "@/app/components/TradeView";
 
-export default async function Page({ params }: { params: { market: string } }) {
-  const { market } = await params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ market: string }>;
+}) {
+  const market = (await params).market;
   return (
     <div>
       <div>
