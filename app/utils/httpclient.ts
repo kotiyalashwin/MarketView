@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Candle, Depth, Ticker, Trade } from "./types";
 
-const BASE_URL = "https://api.binance.com/api/v3";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 //markets page
 export const getMarket = async (): Promise<Ticker[]> => {

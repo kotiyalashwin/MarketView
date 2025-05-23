@@ -1,6 +1,6 @@
 import { Candle, Depth, Ticker } from "./types";
 
-const cxnURL = "wss://stream.binance.com:9443/ws";
+const cxnURL = process.env.NEXT_PUBLIC_STREAM_URL as string;
 
 export class ConnectionManager {
   private static instance: ConnectionManager;
