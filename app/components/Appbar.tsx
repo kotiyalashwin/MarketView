@@ -11,14 +11,14 @@ const Appbar = () => {
         <Link href={"/"} className="text-xl ">
           Exchange
         </Link>
-        <Link
+        {/* <Link
           className={`${
             pathname === "/market" ? "text-yellow-400" : "text-neutral-400"
           }`}
           href={"/market"}
         >
           Market
-        </Link>
+        </Link> */}
         <Link
           className={`${
             pathname.startsWith("/trade")

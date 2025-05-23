@@ -1,9 +1,10 @@
 const Bids = ({ bids }: { bids: [string, string][] }) => {
   let total = 0;
-
+  // bids.reverse();
   const withTotal: [string, string, number][] = [];
 
-  for (let i = bids.length - 1; i >= 0; i--) {
+  // for (let i = bids.length - 1; i >= 0; i--) {
+  for (let i = 0; i < bids.length; i++) {
     const [price, quantity] = bids[i];
     withTotal.push([price, quantity, (total += Number(quantity))]);
   }
@@ -12,7 +13,6 @@ const Bids = ({ bids }: { bids: [string, string][] }) => {
     (acc, [, quantity]) => acc + Number(quantity),
     0
   );
-  withTotal.reverse();
 
   return (
     <div className="space-y-[2px]">

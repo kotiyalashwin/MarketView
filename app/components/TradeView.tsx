@@ -12,21 +12,68 @@ import {
 } from "lightweight-charts";
 import { getKlines } from "../utils/httpclient";
 import { Candle } from "../utils/types";
+import { ConnectionManager } from "../utils/ConnectionManager";
 
 export const TradeView = ({ market }: { market: string }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const [candles, setCandles] = useState<Candle[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      const data = await getKlines(market);
-      setCandles(data);
-    }
+    getKlines(market).then((res) => setCandles(res));
 
-    fetchData();
+    ConnectionManager.getInstance().registerCallback(
+      "kline",
+      (data: Partial<Candle>) => {
+        console.log(data);
+        const parsedCandle: Candle = {
+          time: data.time!,
+          open: parseFloat(String(data.open!)),
+          high: parseFloat(String(data.high!)),
+          low: parseFloat(String(data.low!)),
+          close: parseFloat(String(data.close!)),
+          isClosed: data.isClosed!,
+        };
+        setCandles((prevCandles) => {
+          const updatedCandles = [...prevCandles];
+          const lastCandle = updatedCandles[updatedCandles.length - 1];
+          if (lastCandle && lastCandle.time === parsedCandle.time) {
+            updatedCandles[updatedCandles.length - 1] = parsedCandle;
+          } else if (lastCandle && parsedCandle.time > lastCandle.time) {
+            updatedCandles.push(parsedCandle);
+            // if (updatedCandles.length > 500) { /* Optional: Limit array size */
+            //   updatedCandles.shift();
+            // }
+          } else {
+            console.warn(
+              "Kline stream: Received an unexpected or out-of-order candle:",
+              parsedCandle
+            );
+          }
+
+          // updatedCandles.push(parsedCandle);
+
+          return updatedCandles;
+        });
+      },
+      market
+    );
+
+    ConnectionManager.getInstance().sendMessage({
+      method: "SUBSCRIBE",
+      params: [`${market.toLowerCase()}@kline_1h`],
+    });
+
+    return () => {
+      ConnectionManager.getInstance().deRegisterCallback("klines", market);
+      ConnectionManager.getInstance().sendMessage({
+        method: "UNSUBSCRIBE",
+        params: [`${market.toLowerCase()}@kline_1h`],
+      });
+    };
   }, [market]);
 
   useEffect(() => {
+    console.log("candles changed");
     if (!chartContainerRef.current) return;
 
     const chart: IChartApi = createChart(chartContainerRef.current, {
@@ -70,7 +117,10 @@ export const TradeView = ({ market }: { market: string }) => {
   }, [candles]);
   return (
     <div className="pr-2 h-full">
-      <div ref={chartContainerRef} className="h-full w-full rounded-md "></div>
+      <div
+        ref={chartContainerRef}
+        className="h-full pt-4 w-full  rounded-md "
+      ></div>
     </div>
   );
 };

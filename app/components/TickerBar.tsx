@@ -55,7 +55,7 @@ const TickerBar = ({ market }: { market: string }) => {
 
   const isPositive = parseFloat(ticker.priceChange) > 0;
   return (
-    <div className="text-sm md:text-xl md:py-4 flex items-center md:pl-10  overflow-x-auto  bg-[#1e1e1e] ">
+    <div className="text-sm md:text-md md:py-4 flex items-center md:pl-10  overflow-x-auto  bg-[#1e1e1e] ">
       <div className="bg-neutral-800 border-yellow-400/20 border-2  py-2 text-lg px-2 rounded-xl">
         <span>{market.slice(0, -4)}</span>
         <span className="text-neutral-400">/{market.slice(-4)}</span>

@@ -1,4 +1,5 @@
-import { Depth, Ticker } from "./types";
+import { useTickerStore } from "./store/Ticker";
+import { Candle, Depth, Ticker } from "./types";
 
 const cxnURL = "wss://stream.binance.com:9443/ws";
 
@@ -46,7 +47,7 @@ export class ConnectionManager {
     //when message recieved
     this.ws.onmessage = (event) => {
       const msg = JSON.parse(event.data);
-      console.log(msg);
+      // console.log(msg);
       //collect for which is this
       //{e : "depth" , s :"solusdt" , b : [] , a : []}
       //type = depth,trade etc etc
@@ -64,6 +65,7 @@ export class ConnectionManager {
               quoteVolume: msg.q,
               volume: msg.v,
             };
+
             callback(newTicker);
           }
           if (type === "depthUpdate") {
@@ -74,6 +76,18 @@ export class ConnectionManager {
             };
 
             callback(newDepth);
+          }
+          if (type === "kline") {
+            const newCandle: Partial<Candle> = {
+              time: msg.k.t,
+              open: msg.k.o,
+              high: msg.k.h,
+              low: msg.k.l,
+              close: msg.k.c,
+              isClosed: msg.k.x,
+            };
+
+            callback(newCandle);
           }
         });
       }

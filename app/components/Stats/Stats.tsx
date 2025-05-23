@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getDepth, getTicker, getTrade } from "../../utils/httpclient";
-import { Depth, Trade } from "../../utils/types";
+import { Depth, Ticker, Trade } from "../../utils/types";
 import OrderBook from "./OrderBook";
 import Trades from "./Trade";
 import { ConnectionManager } from "@/app/utils/ConnectionManager";
@@ -15,6 +15,8 @@ export const Stats = ({ market }: { market: string }) => {
 
   useEffect(() => {
     getDepth(market).then((res) => setDepth(res));
+    getTicker(market).then((res) => setPrice(res.lastPrice));
+    getTrade(market).then((res) => setTrades(res));
 
     const updateDepth = (data: Depth) => {
       setDepth((prev) => {
@@ -41,11 +43,22 @@ export const Stats = ({ market }: { market: string }) => {
       method: "SUBSCRIBE",
       params: [`${market.toLowerCase()}@depth`],
     });
-    getTicker(market).then((res) => setPrice(res.lastPrice));
-    getTrade(market).then((res) => setTrades(res));
+
+    ConnectionManager.getInstance().registerCallback(
+      "24hrMiniTicker",
+      (data: Partial<Ticker>) => {
+        setPrice((prev) => data.lastPrice ?? prev ?? "");
+      },
+      market
+    );
 
     return () => {
       ConnectionManager.getInstance().deRegisterCallback("depthUpdate", market);
+      ConnectionManager.getInstance().deRegisterCallback(
+        "24hrMiniTicker",
+        market
+      );
+
       ConnectionManager.getInstance().sendMessage({
         method: "UNSUBSCRIBE",
         params: [`${market.toLowerCase()}@depth`],
